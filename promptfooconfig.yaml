@@ -1,0 +1,32 @@
+version: 1
+description: "Promptfoo testing local mock AI via HTTP endpoint"
+
+providers:
+  - id: http
+    config:
+      url: "http://localhost:3000/ai"
+      method: POST
+      headers:
+        Content-Type: "application/json"
+      body:
+        query: "{{prompt}}"
+      transformResponse: "json.reply"
+
+tests:
+  - vars:
+      prompt: "Hello"
+    assert:
+      - type: contains
+        value: "Hello"
+
+  - vars:
+      prompt: "What's the weather like?"
+    assert:
+      - type: contains
+        value: "sunny"
+
+  - vars:
+      prompt: "Tell me a joke."
+    assert:
+      - type: contains
+        value: "mock AI"
